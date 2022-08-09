@@ -39,11 +39,9 @@ let str = "http://localhost:3000/api/products";
 
       console.log(data);
 
-    //   let addButton = document.querySelector("addToCart")
-    //   addButton.addEventListener("click", function(event){
-    //     console.log(addButton);
+      let addButton = document.querySelector("addToCart")
+      addButton.addEventListener("click", function(event){
+        window.location.href = "./cart.html";
 
-     
-
-    //   })
+      })
     });
