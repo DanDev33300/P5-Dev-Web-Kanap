@@ -15,8 +15,6 @@ fetch('http://localhost:3000/api/products/' + productId)
     let productImg = document.createElement("img")
     productImg.src = data.imageUrl
     productImg.alt = data.altTxt
-    productImg.alt = data.altTxt
-    productImg.alt = data.altTxt
     imgContainer.appendChild(productImg)
 
     let pageTitle = document.querySelector("#title")
@@ -41,9 +39,17 @@ fetch('http://localhost:3000/api/products/' + productId)
     console.log(data);
 
     let addButton = document.querySelector("#addToCart")
-    addButton.addEventListener("click", function (event) {
-      
-
+    addButton.addEventListener("click", () => {
+      let productAdded = {
+        name: pageTitle.innerHTML,
+        color: data.colors,
+        price: parseFloat(priceProduct.innerHTML),
+        quantity: parseFloat(document.querySelector("#quantity").value),
+        id: productId,
+        description: descriptionProduct.innerHTML
+    
+      }
+console.log(productAdded);
 
 
     })
