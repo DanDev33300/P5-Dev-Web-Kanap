@@ -47,10 +47,28 @@ fetch('http://localhost:3000/api/products/' + productId)
         quantity: parseFloat(document.querySelector("#quantity").value),
         id: productId,
         description: descriptionProduct.innerHTML
-    
       }
-console.log(productAdded);
 
+      console.log(productAdded);
 
+      let productSavedInLocalStorage = JSON.parse(localStorage.getItem("product"))
+   
+      if (productSavedInLocalStorage) {
+
+        productSavedInLocalStorage.push(productAdded)
+        localStorage.setItem("product", JSON.stringify(productSavedInLocalStorage))
+
+      } else {
+
+        productSavedInLocalStorage = [];
+        productSavedInLocalStorage.push(productAdded)
+        localStorage.setItem("product", JSON.stringify(productSavedInLocalStorage))
+
+        console.log(productSavedInLocalStorage)
+      }
     })
-  });
+  })
+
+
+
+
