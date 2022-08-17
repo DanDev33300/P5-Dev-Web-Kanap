@@ -1,3 +1,6 @@
+//----------------------------------------------------------------
+// Récupération de l'ID produit via l'URL
+//----------------------------------------------------------------
 let str = "http://localhost:3000/api/products";
 let url = new URL(location);
 console.log(url);
@@ -6,6 +9,10 @@ console.log(urlParams);
 
 let productId = urlParams.get("id")
 console.log(productId);
+
+//--------------------------------------------------------------------------
+// Récupération des produits de l'api et traitement des données
+//--------------------------------------------------------------------------
 
 fetch('http://localhost:3000/api/products/' + productId)
   .then((response) => response.json())
@@ -17,14 +24,14 @@ fetch('http://localhost:3000/api/products/' + productId)
     productImg.alt = data.altTxt
     imgContainer.appendChild(productImg)
 
-    let pageTitle = document.querySelector("#title")
-    pageTitle.innerHTML = data.name
+    let productTitle = document.querySelector("#title")
+    productTitle.innerHTML = data.name
 
-    let priceProduct = document.querySelector("#price")
-    priceProduct.innerHTML = data.price
+    let productPrice = document.querySelector("#price")
+    productPrice.innerHTML = data.price
 
-    let descriptionProduct = document.querySelector("#description")
-    descriptionProduct.innerHTML = data.description
+    let productDescription = document.querySelector("#description")
+    productDescription.innerHTML = data.description
 
     let colorSelect = document.querySelector("#colors")
     for (let color of data.colors) {
@@ -41,18 +48,19 @@ fetch('http://localhost:3000/api/products/' + productId)
     let addButton = document.querySelector("#addToCart")
     addButton.addEventListener("click", () => {
       let productAdded = {
-        name: pageTitle.innerHTML,
-        color: data.colors,
-        price: parseFloat(priceProduct.innerHTML),
-        quantity: parseFloat(document.querySelector("#quantity").value),
         id: productId,
-        description: descriptionProduct.innerHTML
+        price: parseFloat(productPrice.innerHTML),
+        color: data.colors,
+        quantity: parseFloat(document.querySelector("#quantity").value),
+        // name: productTitle.innerHTML,
+        // description: productDescription.innerHTML
       }
 
       console.log(productAdded);
 
+
       let productSavedInLocalStorage = JSON.parse(localStorage.getItem("product"))
-   
+
       if (productSavedInLocalStorage) {
 
         productSavedInLocalStorage.push(productAdded)
@@ -65,10 +73,24 @@ fetch('http://localhost:3000/api/products/' + productId)
         localStorage.setItem("product", JSON.stringify(productSavedInLocalStorage))
 
         console.log(productSavedInLocalStorage)
+
+
+        function redirectionToCartPage() {
+          // Create an alert in the page when a product is added to the cart
+          if (
+            window.confirm(
+              "Votre produit a été ajouté au panier. Pour le consulter, cliquez sur OK."
+            )
+          ) {
+            window.location.href = "cart.html";
+          }
+        }
+        redirectionToCartPage()
+        
+        addButton();
       }
     })
   })
-
 
 
 
