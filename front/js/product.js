@@ -43,54 +43,31 @@ fetch('http://localhost:3000/api/products/' + productId)
       colorSelect.appendChild(option)
     }
 
-    console.log(data);
-
+    let userQuantity = document.querySelector("#quantity")
     let addButton = document.querySelector("#addToCart")
+
     addButton.addEventListener("click", () => {
-      let productAdded = {
-        id: productId,
-        price: parseFloat(productPrice.innerHTML),
-        color: data.colors,
-        quantity: parseFloat(document.querySelector("#quantity").value),
-        // name: productTitle.innerHTML,
-        // description: productDescription.innerHTML
-      }
 
-      console.log(productAdded);
+      let userChosenColor = colorSelect.value
+      let userChosenQuantity = userQuantity.value
+      console.log(userChosenColor)
+      console.log(userChosenQuantity)
 
-
-      let productSavedInLocalStorage = JSON.parse(localStorage.getItem("product"))
-
-      if (productSavedInLocalStorage) {
-
-        productSavedInLocalStorage.push(productAdded)
-        localStorage.setItem("product", JSON.stringify(productSavedInLocalStorage))
-
-      } else {
-
-        productSavedInLocalStorage = [];
-        productSavedInLocalStorage.push(productAdded)
-        localStorage.setItem("product", JSON.stringify(productSavedInLocalStorage))
-
-        console.log(productSavedInLocalStorage)
-
-
-        function redirectionToCartPage() {
-          // Create an alert in the page when a product is added to the cart
-          if (
-            window.confirm(
-              "Votre produit a été ajouté au panier. Pour le consulter, cliquez sur OK."
-            )
-          ) {
-            window.location.href = "cart.html";
-          }
+      if (userChosenQuantity >= 1 && userChosenQuantity <= 100) {
+        if (userChosenColor === "") {
+          window.alert("Veuillez choisir une couleur")
+          
+        } else {
+          addToCart(productId, userChosenColor, userChosenQuantity)
         }
-        redirectionToCartPage()
-        
-        addButton();
       }
     })
   })
+
+
+
+
+
 
 
 

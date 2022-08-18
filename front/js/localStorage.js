@@ -1,41 +1,34 @@
 const localStorageAccess = localStorage
 
-function getAllProductsFromLocalStorage(cart) {
-   
+function getAllProductsFromLocalStorage() {
+    const products = localStorageAccess.getItem("cartProduct")
+    if (!products) {
+        return {}
+    }
+    return JSON.parse(products)
 }
 
 function updateLocalStorage(products) {
-   
+    localStorageAccess.setItem("cartProduct",JSON.stringify(products))
 }
 
 function addToCart(id, color, quantity) {
-    
+    console.log(id);
+    let productElements = getAllProductsFromLocalStorage()
+    if (productElements[id]) {
+        if (productElements[id][color]) {
+            productElements[id][color] = parseInt(productElements[id][color]) + parseInt(quantity)
+        } else {
+            productElements[id][color] = parseInt(quantity)
+        }
+    }
+    if (!productElements[id]) {
+        productElements[id] = {
+            [color]: parseInt(quantity)
+        }
 
+    }
+
+    updateLocalStorage(productElements)
 }
 
-// get set
-
-
-
-
-
-
-
-
-// const localStorageAccess = localStorage
-
-// function getAllProductsFromLocalStorage(cart) {
-//     localStorage.setItem("cart", JSON.stringify(cart))
-
-// }
-
-// function updateLocalStorage(products) {
-//     return JSON.parse(localStorage.getItem("cart"))
-// }
-
-// function addToCart(id, color, quantity) {
-//     let cart = updateLocalStorage()
-//     cart.push(id, color, quantity)
-//     getAllProductsFromLocalStorage(cart)
-
-// }

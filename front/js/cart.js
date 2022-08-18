@@ -1,4 +1,4 @@
-let productSavedInLocalStorage = JSON.parse(localStorage.getItem("product"))
+let productSavedInLocalStorage = getAllProductsFromLocalStorage()
 console.log(productSavedInLocalStorage);
 
 const productSelected = document.querySelector("#cart__items")
