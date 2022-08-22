@@ -4,22 +4,15 @@ console.log(productSavedInLocalStorage);
 
 const itemsCart = document.querySelector("#cart__items")
 
-fetch("http://localhost:3000/api/products/")
-    .then(response => response.json())
-    .then(data => {
-    
-    
-    
-    
-    let productArticle = document.createElement("article")
-    itemsCart.appendChild(productArticle)
-    productArticle.className = "cart__item";
-    
-    let itemDivImg = document.createElement("div")
-    productArticle.appendChild(itemDivImg)
-    itemDivImg.className = "cart__item__img"
-    
-    let imgProduct = document.createElement("img")
+let productArticle = document.createElement("article")
+itemsCart.appendChild(productArticle)
+productArticle.className = "cart__item";
+
+let itemDivImg = document.createElement("div")
+productArticle.appendChild(itemDivImg)
+itemDivImg.className = "cart__item__img"
+
+let imgProduct = document.createElement("img")
     itemDivImg.appendChild(imgProduct)
     
     let itemContent = document.createElement("div")
@@ -53,7 +46,7 @@ fetch("http://localhost:3000/api/products/")
     let productInput = document.createElement("input")
     itemContentSettingsQuantity.appendChild(productQuantity)
     itemContentSettingsQuantity.appendChild(productInput)
-
+    
     let itemContentSettingsDelete = document.createElement("div")
     itemContentSettings.appendChild(itemContentSettingsDelete)
     itemContentSettingsDelete.className = "cart__item__content__settings__delete"
@@ -63,13 +56,16 @@ fetch("http://localhost:3000/api/products/")
     itemContentSettingsDelete.appendChild(itemDelete)
     itemDelete.className = "deleteItem"
     
+    fetch("http://localhost:3000/api/products/")
+        .then(response => response.json())
+        .then(data => {
         console.table(data);
     })
     
     
-
     
-
+    
+    
 
 
     
