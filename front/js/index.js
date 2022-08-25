@@ -5,7 +5,7 @@ let cardsKanap = function () {
     .then((data) => {
       console.log(data);
 
-      let productSection = document.getElementById("items");
+      let productSection = document.querySelector("#items");
       
       for (i = 0; i < data.length; i++) {
           const productCard = `

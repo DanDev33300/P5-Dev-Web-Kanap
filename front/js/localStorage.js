@@ -3,13 +3,13 @@ const localStorageAccess = localStorage
 function getAllProductsFromLocalStorage() {
     const products = localStorageAccess.getItem("cartProduct")
     if (!products) {
-        return {}
+        return {};
     }
-    return JSON.parse(products)
+    return JSON.parse(products);
 }
 
 function updateLocalStorage(products) {
-    localStorageAccess.setItem("cartProduct",JSON.stringify(products))
+    localStorageAccess.setItem("cartProduct", JSON.stringify(products))
 }
 
 function addToCart(id, color, quantity) {
@@ -32,3 +32,20 @@ function addToCart(id, color, quantity) {
     updateLocalStorage(productElements)
 }
 
+function removeProductToCart(id, color) {
+    let productElements = getAllProductsFromLocalStorage()
+    if (productElements[id][color]) {
+        if (Object.keys(productElements[id][color]).length > 1 ){
+            delete productElements[id][color]
+            
+        } else {
+            delete productElements[id]
+        }
+    }
+    updateLocalStorage(productElements)
+    location.reload()
+}
+
+function changeQuantityToCart (id, color, quantity) {
+    
+}
