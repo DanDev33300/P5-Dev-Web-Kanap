@@ -157,7 +157,7 @@ const validCity = function (inputCity) {
     console.log(cityErrorMsg.innerHTML);
 }
 
-// Écouter la modification de la ville
+// Écouter la modification de l'email
 formProduct.email.addEventListener('change', function () {
     validMail(this)
 })
