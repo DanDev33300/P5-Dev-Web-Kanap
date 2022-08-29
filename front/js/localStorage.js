@@ -49,3 +49,16 @@ function removeProductToCart(id, color) {
 function changeQuantityToCart (id, color, quantity) {
     
 }
+
+// function changeQuantityToCart (id, color, quantity) {
+//     let productElements = getAllProductsFromLocalStorage()
+//     if (productElements[id][color][quantity]) {
+//         if (Object.keys(productElements[id][color][quantity]).length > 1) {
+//             delete productElements[id][color][quantity]
+//         } else {
+//             delete productElements
+//         }
+//     }
+//     updateLocalStorage(productElements)
+//     location.reload
+// }

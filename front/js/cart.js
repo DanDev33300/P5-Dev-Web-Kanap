@@ -57,10 +57,14 @@ for (let [id, colors] of Object.entries(productSavedInLocalStorage)) {
         let changedQuantitys = document.getElementsByClassName("itemQuantity")
         Object.values(changedQuantitys).forEach(changedQuantity => {
             changedQuantity.addEventListener('change', function (event) {
-
+                let articleFromChanged = changed.closest("article")
+                let idFromArticle = articleFromChanged.getAttribute("data-id")
+                let colorFromArticle = articleFromChanged.getAttribute("data-color")
+                let quantityFromArticle = articleFromChanged.getAttribute("value")
                 //mettre les trois variables pour récupérer l'id, la couleur et la quantité
                 //puis les mettre en paramètre dans les parenthèses de l'appel de la fonction
-                changeQuantityToCart()
+                changeQuantityToCart(idFromArticle, colorFromArticle, quantityFromArticle)
+                event()
 
             })
         })
