@@ -5,10 +5,10 @@ let itemsCart = document.querySelector("#cart__items")
 
 //tout d'abord il faut faire une boucle sur le panier de l'utilisateur pour faire un traitement par produit (en destructurant le produit).
 for (let [id, colors] of Object.entries(productSavedInLocalStorage)) {
-    console.log(colors)
+    // console.log(colors)
     //la deuxième boucle permets d'aller récupérer la couleur et la quantité
     for (let [color, quantity] of Object.entries(colors)) {
-        console.log(color)
+        // console.log(color)
         //ce qui ta embete c'est de récupérer tous les produits à chaque boucle alors qu'il ne faut en récupérer qu'un seul
         //avec l'id
         fetch("http://localhost:3000/api/products/" + id)
@@ -18,7 +18,7 @@ for (let [id, colors] of Object.entries(productSavedInLocalStorage)) {
 
                 // for (j = 0; j < product.length; j++) {
                 const productCart = `
-                    <article class="cart__item" data-id="${product._id}" data-color="${product.colors}">
+                    <article class="cart__item" data-id="${product._id}" data-color="${color}">
                       <div class="cart__item__img">
                         <img src="${product.imageUrl}" alt="${product.altTxt}"/>
                       </div>
@@ -40,35 +40,34 @@ for (let [id, colors] of Object.entries(productSavedInLocalStorage)) {
                     </article>
                     `
                 itemsCart.innerHTML += productCart;
+
+                let btnsRemove = document.getElementsByClassName("deleteItem")
+                Object.values(btnsRemove).forEach(btnRemove => {
+                    btnRemove.addEventListener('click', function (event) {
+                        let articleFromBtnRemove = btnRemove.closest("article")
+                        let idFromArticle = articleFromBtnRemove.getAttribute("data-id")
+                        let colorFromArticle = articleFromBtnRemove.getAttribute("data-color")
+                        removeProductToCart(idFromArticle, colorFromArticle)
+                    })
+                })
+
+                let changedQuantitys = document.getElementsByClassName("itemQuantity")
+                Object.values(changedQuantitys).forEach(changedQuantity => {
+                    console.log(changedQuantity);
+                    changedQuantity.addEventListener('change', function (event) {
+                        console.log(event);
+                        let thisQuantityInput = changedQuantity.closest("div > input")
+                        let articleFromChanged = changedQuantity.closest("article")
+                        let idFromArticle = articleFromChanged.getAttribute("data-id")
+                        let colorFromArticle = articleFromChanged.getAttribute("data-color")
+                        // let quantityFromArticle = articleFromChanged.getAttribute("value")
+                        let quantityFromArticle = thisQuantityInput.value
+                        //mettre les trois variables pour récupérer l'id, la couleur et la quantité
+                        //puis les mettre en paramètre dans les parenthèses de l'appel de la fonction
+                        changeQuantityToCart(idFromArticle, colorFromArticle, quantityFromArticle)
+                    })
+                })
             })
-
-
-
-        let btnsRemove = document.getElementsByClassName("deleteItem")
-        Object.values(btnsRemove).forEach(btnRemove => {
-            btnRemove.addEventListener('click', function (event) {
-                let articleFromBtnRemove = btnRemove.closest("article")
-                let idFromArticle = articleFromBtnRemove.getAttribute("data-id")
-                let colorFromArticle = articleFromBtnRemove.getAttribute("data-color")
-                removeProductToCart(idFromArticle, colorFromArticle)
-            })
-        })
-
-        let changedQuantitys = document.getElementsByClassName("itemQuantity")
-        Object.values(changedQuantitys).forEach(changedQuantity => {
-            changedQuantity.addEventListener('change', function (event) {
-                let thisQuantityInput = changedQuantitys.closest("div > input")
-                // let articleFromChanged = changed.closest("article")
-                let idFromArticle = articleFromChanged.getAttribute("data-id")
-                let colorFromArticle = articleFromChanged.getAttribute("data-color")
-                let quantityFromArticle = articleFromChanged.getAttribute("value")
-                //mettre les trois variables pour récupérer l'id, la couleur et la quantité
-                //puis les mettre en paramètre dans les parenthèses de l'appel de la fonction
-                changeQuantityToCart(idFromArticle, colorFromArticle, quantityFromArticle,)
-                event()
-
-            })
-        })
     }
 }
 
@@ -83,7 +82,7 @@ formProduct.firstName.addEventListener('change', function () {
 })
 
 const validFirstName = function (inputFirstName) {
-   
+
     let firstNameRegExp = new RegExp(/^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{3,20}$/).test(inputFirstName.value)
     console.log(firstNameRegExp);
 
@@ -94,7 +93,7 @@ const validFirstName = function (inputFirstName) {
         let firstNameErrorMsg = document.getElementById('firstNameErrorMsg')
         firstNameErrorMsg.innerHTML = "Votre prénom doit contenir entre 3 et 20 caractères"
     }
-    console.log(firstNameErrorMsg.innerHTML );
+    console.log(firstNameErrorMsg.innerHTML);
 }
 
 // Écouter la modification du nom
@@ -103,7 +102,7 @@ formProduct.lastName.addEventListener('change', function () {
 })
 
 const validLastName = function (inputLastName) {
-    
+
     let lastNameRegExp = new RegExp(/^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{3,20}$/).test(inputLastName.value)
     console.log(lastNameRegExp);
 
@@ -123,7 +122,7 @@ formProduct.address.addEventListener('change', function () {
 })
 
 const validAddress = function (inputAddress) {
-    
+
     let addressRegExp = new RegExp(/^[0-9]{1,4}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+/).test(inputAddress.value)
     console.log(addressRegExp);
 
@@ -143,7 +142,7 @@ formProduct.city.addEventListener('change', function () {
 })
 
 const validCity = function (inputCity) {
-    
+
     let cityRegExp = new RegExp(/^[a-zA-Zàâäéèêëïîôöùûüç]+(?:[- ][a-zA-Zàâäéèêëïîôöùûüç]+)*$/).test(inputCity.value)
     console.log(cityRegExp);
 
@@ -163,7 +162,7 @@ formProduct.email.addEventListener('change', function () {
 })
 
 const validMail = function (inputEmail) {
-    
+
     let mailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$').test(inputEmail.value)
     console.log(mailRegExp);
 
@@ -177,3 +176,46 @@ const validMail = function (inputEmail) {
     console.log(emailErrorMsg.innerHTML);
 }
 
+// Écouter la soumission du formulaire
+formProduct.addEventListener('submit', function (event) {
+    event.preventDefault()
+    if (validFirstName(formProduct.firstName)
+        && validLastName(formProduct.lastName)
+        && validAddress(formProduct.address)
+        && validCity(formProduct.city)
+        && validMail(formProduct.email)
+    ) {
+        // formProduct.submit()
+        // Gérer l'envoi de la commande
+        const contact = {
+            firstName: formProduct.firstName.value,
+            lastName: formProduct.lastName.value,
+            address: formProduct.address.value,
+            city: formProduct.city.value,
+            email: formProduct.email.value,
+        }
+
+        let products = []
+        for (let [id] of Object.entries(productSavedInLocalStorage)) {
+            products.push([id])
+        }
+
+        fetch('http://localhost:3000/api/products/order', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            body: JSON.stringify({ contact, products })
+        })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json(response)
+                        .then(function(res){
+                            console.log(res);
+                            alert('Votre est passée avec succès!')
+                            location.replace(`confirmation.html?id=${res.orderId}`)
+                        })
+                        .catch((error) => console.log(error))
+                }
+            })
+    }
+    console.log(event);
+})

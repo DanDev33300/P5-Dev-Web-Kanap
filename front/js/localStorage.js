@@ -35,30 +35,25 @@ function addToCart(id, color, quantity) {
 function removeProductToCart(id, color) {
     let productElements = getAllProductsFromLocalStorage()
     if (productElements[id][color]) {
-        if (Object.keys(productElements[id][color]).length > 1 ){
+        if (Object.keys(productElements[id][color]).length > 1) {
             delete productElements[id][color]
-            
+
         } else {
             delete productElements[id]
         }
     }
+
     updateLocalStorage(productElements)
     location.reload()
 }
 
-function changeQuantityToCart (id, color, quantity) {
-    
-}
+function changeQuantityToCart(id, color, quantity) {
+    let productElements = getAllProductsFromLocalStorage()
 
-// function changeQuantityToCart (id, color, quantity) {
-//     let productElements = getAllProductsFromLocalStorage()
-//     if (productElements[id][color][quantity]) {
-//         if (Object.keys(productElements[id][color][quantity]).length > 1) {
-//             delete productElements[id][color][quantity]
-//         } else {
-//             delete productElements
-//         }
-//     }
-//     updateLocalStorage(productElements)
-//     location.reload
-// }
+    if (productElements[id][color]) {
+        productElements[id][color] = quantity
+    }
+
+    updateLocalStorage(productElements)
+    location.reload()
+}
